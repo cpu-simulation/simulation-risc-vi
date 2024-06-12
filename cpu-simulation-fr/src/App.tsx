@@ -6,17 +6,16 @@ import Cpu from "./components/cpu/cpu";
 import DarkModeToggler from "./components/darkModeToggler/darkModeToggler";
 
 function App() {
-  const [theme, setTheme] = useState(true);
+  const [theme, setTheme] = useState(false);
   return (
     <>
-      <ThemeProvider theme={theme ? dark : light}>
-        {/* need a toggler */}
+      <ThemeProvider theme={ theme ? dark : light}>
         <GlobalStyle />
         <div className="App">
           <Cpu />
-          <div onClick={()=>{setTheme(!theme)}} className="bg-slate-600 inline">
-            <DarkModeToggler />
-          </div>
+          <span onClick={()=>{setTheme(!theme)}} className="absolute right-[293px] top-[84px]">
+            <DarkModeToggler/>
+          </span>
         </div>
       </ThemeProvider>
     </>
