@@ -14,7 +14,8 @@ const DarkModeToggler = () => {
       checked={isDarkMode}
       onChange={toggleDarkMode}
       size={21}
-      sunColor="#363537"
+      sunColor="rgba(216, 216, 216, 1)"
+      moonColor="#363537"
     />
   );
 };

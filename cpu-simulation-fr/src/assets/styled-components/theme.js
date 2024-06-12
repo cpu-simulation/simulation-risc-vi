@@ -10,7 +10,7 @@ const light = {
 
 const dark = {
   body: "#363537",
-  text: "#FAFAFA",
+  text: "rgba(216, 216, 216, 1)",
   toggleBorder: "#6B8096",
   background: "rgba(34, 36, 42, 1)",
   primary: "rgba(50, 52, 61, 1)",

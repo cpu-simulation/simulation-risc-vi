@@ -6,7 +6,7 @@ import Cpu from "./components/cpu/cpu";
 import DarkModeToggler from "./components/darkModeToggler/darkModeToggler";
 
 function App() {
-  const [theme, setTheme] = useState(false);
+  const [theme, setTheme] = useState(true);
   return (
     <>
       <ThemeProvider theme={ theme ? dark : light}>

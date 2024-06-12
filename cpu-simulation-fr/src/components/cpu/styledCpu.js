@@ -22,8 +22,8 @@ export const StyledHeader = styled.div`
   background-color: ${({ theme }) => theme.cBody};
   padding: 10px;
   width: 90%;
-  left: 50%;
-  transform: translateX(-50%);
+  /* left: 50%;
+  transform: translateX(-50%); */
   margin-top: 30px;
   border-radius: 50px;
   border: solid 2px ${({ theme }) => theme.primary};
