@@ -2,6 +2,7 @@ import { StyledCpu, StyledHeader } from "./styledCpu";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import UserInput from "../userInput/userInput";
+import Memory from './../memory/Memory';
 
 const Cpu = () => {
   return (
@@ -21,6 +22,7 @@ const Cpu = () => {
 
         <div className="grid grid-cols-7 grid-rows-6 w-[90%] gap-x-5 gap-y-2 mt-3 ">
           <UserInput />
+          <Memory />
         </div>
       </StyledCpu>
     </>

@@ -5,7 +5,7 @@ export const StyledUserInput = styled.div`
   background-color: ${({ theme }) => theme.cBody};
   border: solid 1px ${({ theme }) => theme.primary};
   padding: 10px 20px;
-  border-radius: 15px;
+  border-radius: 0px 15px 15px 15px;
   textarea {
     @font-face {
       font-family: PressStart2P;
@@ -18,7 +18,6 @@ export const StyledUserInput = styled.div`
     font-size: 10px;
     width: 100%;
     height: 250px;
-    margin-top: 50px;
     border-radius: 15px;
     border: solid 1px ${({ theme }) => theme.primary};
     background-color: ${({ theme }) => theme.background};
@@ -29,5 +28,43 @@ export const StyledUserInput = styled.div`
   }
   textarea::-webkit-scrollbar {
     display: none;
+  }
+`;
+
+export const UserInputTop = styled.div`
+  background-color: ${({ theme }) => theme.cBody};
+  border: solid 1px ${({ theme }) => theme.primary};
+  border-bottom: none;
+  padding: 10px 20px;
+  border-radius: 15px 15px 0px 0px;
+  margin-bottom: -2px;
+`;
+
+export const Btn = styled.button`
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 100px;
+  border: solid 2px ${({ theme }) => theme.primary};
+  background-image: radial-gradient(
+    ${({ theme }) => theme.primary},
+    ${({ theme }) => theme.background},
+    ${({ theme }) => theme.cBody}
+  );
+  margin-right: 10px;
+`;
+
+export const LongButton = styled(Btn)`
+  width: auto;
+  margin-right: 0px;
+`
+
+export const CoEx = styled.div`
+  background-color: ${({ theme }) => theme.cBody};
+  border: solid 1px ${({ theme }) => theme.primary};
+  padding: 0px 20px;
+  border-radius: 40px;
+  .line {
+    border-right:1px solid ${({theme})=> theme.text};
   }
 `;
