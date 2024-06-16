@@ -28,17 +28,21 @@ export const StyledMemory = styled.div`
     border-radius: 15px;
     border: solid 1px ${({ theme }) => theme.primary};
     margin-top: 8px;
-    /* &::-webkit-scrollbar {
+    &::-webkit-scrollbar {
       width: 30px;
     }
     &::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 5px grey;
-      border-radius: 10px;
+      box-shadow: inset 0 0 5px ${({ theme }) => theme.cBody};
+      border-radius: 15px;
+      /* display: none; */
     }
     &::-webkit-scrollbar-thumb {
-      background: red;
-      border-radius: 10px;
-    } */
+      background-image: linear-gradient(
+        ${({ theme }) => theme.cBody},
+        ${({ theme }) => theme.primary}
+      );
+      border-radius: 15px;
+    }
   }
 
   .cell {
@@ -51,8 +55,8 @@ export const StyledMemory = styled.div`
     margin-bottom: 4px;
     background-image: radial-gradient(
       ${({ theme }) => theme.cBody},
-      ${({ theme }) => theme.background},
-      ${({ theme }) => theme.primary}
+      ${({ theme }) => theme.primary},
+      ${({ theme }) => theme.secondary}
     );
   }
 `;
