@@ -21,8 +21,7 @@ const Memory = () => {
   const [searched, setSearched] = useState([""]);
 
   return (
-    <div className="col-span-2 row-span-4">
-      <StyledMemory>
+      <StyledMemory className="col-span-2 row-span-4">
         <div className="flex">
           <input
             className="block"
@@ -44,7 +43,6 @@ const Memory = () => {
             : searched.map((c) => <div className="cell">{c}</div>)}
         </div>
       </StyledMemory>
-    </div>
   );
 };
 

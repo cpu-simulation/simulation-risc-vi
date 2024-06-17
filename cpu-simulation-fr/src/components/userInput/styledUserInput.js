@@ -2,6 +2,7 @@ import styled from "styled-components";
 import PressStart2P from "../../assets/fonts/Press_Start_2P/PressStart2P-Regular.ttf";
 
 export const StyledUserInput = styled.div`
+  height: 289px;
   background-color: ${({ theme }) => theme.cBody};
   border: solid 1px ${({ theme }) => theme.primary};
   padding: 10px 20px;
@@ -17,7 +18,7 @@ export const StyledUserInput = styled.div`
     line-height: 20px;
     font-size: 10px;
     width: 100%;
-    height: 250px;
+    height: 100%;
     border-radius: 15px;
     border: solid 1px ${({ theme }) => theme.primary};
     background-color: ${({ theme }) => theme.background};

@@ -16,6 +16,7 @@ export const StyledCpu = styled.div`
   transform: translate(-50%, -50%);
   border: 2px solid ${({ theme }) => theme.primary};
   border-radius: 15px;
+  
 `;
 
 export const StyledHeader = styled.div`

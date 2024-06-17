@@ -3,6 +3,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import UserInput from "../userInput/userInput";
 import Memory from './../memory/Memory';
+import Registers from '../registers/registers';
+import States from '../states/states';
 
 const Cpu = () => {
   return (
@@ -20,9 +22,11 @@ const Cpu = () => {
           </div>
         </StyledHeader>
 
-        <div className="grid grid-cols-7 grid-rows-6 w-[90%] gap-x-5 gap-y-2 mt-3 ">
+        <div className="grid grid-cols-7 grid-rows-7 w-[90%] gap-x-5 gap-y-2 mt-3 pb-[30px]">
           <UserInput />
           <Memory />
+          <Registers />
+          <States />
         </div>
       </StyledCpu>
     </>

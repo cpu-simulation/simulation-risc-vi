@@ -14,6 +14,10 @@ const GlobalStyle = createGlobalStyle`
     transition: all ease-in-out 200ms;
     font-family: 'jomolhari';
   }
+
+  *{
+    cursor: default;
+  }
 `;
 
 export default GlobalStyle;

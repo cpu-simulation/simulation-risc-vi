@@ -13,7 +13,7 @@ function App() {
         <GlobalStyle />
         <div className="App">
           <Cpu />
-          <span onClick={()=>{setTheme(!theme)}} className="absolute right-[293px] top-[84px]">
+          <span onClick={()=>{setTheme(!theme)}} className="absolute right-[293px] top-[54px]">
             <DarkModeToggler/>
           </span>
         </div>

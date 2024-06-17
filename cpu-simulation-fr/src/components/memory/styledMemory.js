@@ -23,7 +23,7 @@ export const StyledMemory = styled.div`
     width: 100%;
     border-radius: 15px;
     overflow-y: scroll;
-    height: 280px;
+    height: 270px;
     padding: 6px;
     border-radius: 15px;
     border: solid 1px ${({ theme }) => theme.primary};
