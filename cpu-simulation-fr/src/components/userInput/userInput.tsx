@@ -4,17 +4,21 @@ import CodeIcon from "@mui/icons-material/Code";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { IMemCells, IUserInp } from "../../assets/interfaces/interfaces";
 
-const UserInput = () => {
+const UserInput = (props:any) => {
   const [input, setInput] : IUserInp = useState("");
   const [instructions, setInstructions] : IMemCells = useState([""]);
   const compile = () => {
     let list = input.split(/\n/)
     setInstructions(list)
+
     //post instructions
   }
 
   const execute = () => {
-    // needs api
+    props.setRegisters({...props.registers})
+    // post execute
+    // get registers and update registers
+    
   }
   return (
     <div className="col-span-5 row-span-4">
