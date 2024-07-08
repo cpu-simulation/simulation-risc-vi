@@ -498,11 +498,13 @@ class Register(object):
 
 
 class Memory(object):
-    def __init__(self):
+    def __init__(self, size):
         self.memory = {}
+        self.size = size
+        self.data = [0] * size
 
-    def write(self, address, data):
-        self.memory[address] = data
+    def write(self, address, word):
+        self.data[address] = word
     
     def read(self, address):
         return self.memory.get(address, None)
