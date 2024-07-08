@@ -111,3 +111,121 @@ class TestMemory(TestCase):
 
     def test_string_representation(self):
         self.assertEqual('Memory(size=4K)', str(self.memory))
+        
+program = """
+                 ORG 100
+                 LDA AAA
+                 ADD BBB
+                 STA CCC
+                 HLT
+            AAA, DEC 83
+            BBB, DEC -23
+            CCC, HEX 0
+                 END
+        """
+ program = """
+                 ORG 100
+                 LDA BBB
+                 CMA
+                 INC
+                 ADD AAA
+                 STA CCC
+                 HLT
+            AAA, DEC 83
+            BBB, DEC -23
+            CCC, HEX 0
+                 END
+        """
+
+program = """
+                 ORG 100
+                 LDA BBB
+                 CMA
+                 INC
+                 ADD AAA
+                 STA CCC
+                 HLT
+            AAA, DEC 83
+            BBB, DEC -23
+            CCC, HEX 0
+                 END
+        """
+
+program = """
+                 ORG 100
+                 CLA
+            LOP, ADD PTR I
+                 ISZ PTR
+                 ISZ CNT
+                 BUN LOP
+                 STA SUM
+                 HLT
+            SUM, HEX 0
+            PTR, HEX 200
+            CNT, DEC -16
+
+                 ORG 200
+                 HEX 10
+                 HEX 20
+                 HEX 30
+                 HEX 40
+                 HEX 50
+                 HEX 60
+                 HEX 70
+                 HEX 80
+                 HEX 90
+                 HEX A0
+                 HEX B0
+                 HEX C0
+                 HEX D0
+                 HEX E0
+                 HEX F0
+                 HEX 100
+                 END
+        """
+
+ program = """
+                  ORG 10
+                  BSA FUNC
+                  DEC 5
+                  HEX 40
+            SUM,  HEX 0
+                  LDA SUM
+                  HLT
+
+            PTR,  HEX 0
+            CNT,  HEX 0
+            FUNC, HEX 0
+                  LDA FUNC I
+                  CMA
+                  INC
+                  STA CNT
+                  ISZ FUNC
+                  LDA FUNC I
+                  STA PTR
+                  CLA
+            LOOP, ADD PTR I
+                  ISZ PTR
+                  ISZ CNT
+                  BUN LOOP
+                  ISZ FUNC
+                  STA FUNC I
+                  ISZ FUNC
+                  BUN FUNC I
+
+                  ORG 40
+            DATA, DEC 1
+                  DEC 2
+                  DEC 4
+                  DEC 8
+                  DEC 16
+                  DEC 32
+                  DEC 64
+                  DEC 128
+                  DEC 256
+                  DEC 512
+                  DEC 1024
+                  END
+        """
+
+
