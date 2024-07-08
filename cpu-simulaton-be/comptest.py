@@ -175,7 +175,7 @@ program = """
         """
 
 # AC should result 31
- program = """
+program = """
                   ORG 10
                   BSA FUNC
                   DEC 5
@@ -218,5 +218,3 @@ program = """
                   DEC 1024
                   END
         """
-
-

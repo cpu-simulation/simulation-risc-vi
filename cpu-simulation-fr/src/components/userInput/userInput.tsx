@@ -21,8 +21,12 @@ const UserInput = (props: any) => {
 
   };
 
-  const execute = () => {
-    api.post("/core/execute")
+  const execute = async() => {
+    let response = await api.post("/core/execute", {
+      instructions: input,
+    });
+
+    props.setRegisters(response.data)
   };
   return (
     <div className="col-span-5 row-span-4">
