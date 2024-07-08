@@ -2,8 +2,10 @@ from math import log
 from flask import Flask, request
 from flask_cors import CORS
 
-class Computer(object):
+from math import log
 
+
+class Computer(object):
     def __init__(self):
         self.ram = Memory(1024 * 4)     # 4K RAM
         self.ar = Register(12)          # Address register
@@ -11,34 +13,36 @@ class Computer(object):
         self.dr = Register(16)          # Data register
         self.ac = Register(16)          # Accumulator
         self.ir = Register(16)          # Instruction register
-        self.tr = Register(16)          # Temporary register
+        self.tr = Register(16)          # Temp register
         self.inpr = Register(8)         # Input register
         self.outr = Register(8)         # Output register
         self.sc = Register(3)           # Sequence counter
         self.e = Register(1)            # Carry bit
         self.s = Register(1)            # Start / stop computer
+        self.r = Register(1)            # Interrupt raised
+        self.ien = Register(1)          # Interrupt enable
         self.fgi = Register(1)          # Input register available
         self.fgo = Register(1)          # Output register available
 
-    
     def run(self, program_start):
         self.pc.word = program_start
         self.s.word = 1
         while self.s.word == 1:
             self.tick()
-    
+
     def tick(self):
         t = self.sc.word
+        r = self.r.word
         d = self.get_opcode()
         i = self.get_indirect_bit()
 
-        if t < 3:
+        if t < 3 and r == 1:
             self.interrupt(t)
 
-        if t < 2:
+        if t < 2 and r == 0:
             self.instruction_fetch(t)
 
-        if t == 2:
+        if t == 2 and r == 0:
             self.instruction_decode()
 
         if t == 3 and d != 7:
@@ -53,7 +57,7 @@ class Computer(object):
                 self.execute_io(b)
             else:
                 self.execute_rri(b)
-    
+
     def get_opcode(self):
         """
         Number in IR(12-14)
@@ -71,7 +75,25 @@ class Computer(object):
         Bit in IR(0-11) that specifies the operation
         """
         return log(self.ir.word & 0xFFF, 2)
-    
+
+    def interrupt(self, t):
+        if t == 0:
+            # RT0: AR <- 0, TR <- PC
+            self.ar.clear()
+            self.tr.word = self.pc.word
+            self.sc.increment()
+        elif t == 1:
+            # RT1: M[AR] <- TR, PC <- 0
+            self.memory_write(self.tr)
+            self.pc.clear()
+            self.sc.increment()
+        elif t == 2:
+            # RT2: PC <- PC + 1, IEN <- 0, R <- 0, SC <- 0
+            self.pc.increment()
+            self.ien.clear()
+            self.r.clear()
+            self.sc.clear()
+
     def instruction_fetch(self, t):
         if t == 0:
             # R'T0: AR <- PC
@@ -90,10 +112,10 @@ class Computer(object):
 
     def operand_fetch(self, i):
         if i:
-            # D7'I'T3: NOOP
+            # D7'IT3: AR <- M[AR]
             self.memory_read(self.ar)
-
-        # D7'I'T3: NOOP
+        # else:
+            # D7'I'T3: NOOP
         self.sc.increment()
 
     def execute_mri(self, d, t):
@@ -155,7 +177,7 @@ class Computer(object):
             self.execute_iof()
 
         self.sc.clear()
-    
+
     def execute_and(self, t):
         if t == 4:
             # D0T4: DR <- M[AR]
@@ -291,12 +313,18 @@ class Computer(object):
         if self.fgi.word == 1:
             self.pc.increment()
 
-
     def execute_sko(self):
         # D7IT3B8: if (FGO = 1) then (PC <- PC + 1)
         if self.fgo.word == 1:
             self.pc.increment()
 
+    def execute_ion(self):
+        # D7IT3B7: IEN <- 1
+        self.ien.word = 1
+
+    def execute_iof(self):
+        # D7IT3B6: IEN <- 0
+        self.ien.clear()
     
     def read_register(self):
         registers = {
@@ -314,26 +342,24 @@ class Computer(object):
             'FGI': self.fgi.word,
             'FGO': self.fgo.word
         }
-        return registers        
-    
+        return registers    
+
     def memory_read(self, source_register):
         source_register.word = self.ram.read(self.ar.word)
 
     def memory_write(self, target_register):
         self.ram.write(self.ar.word, target_register.word)
-                    
 
 
 class Register(object):
-    
     def __init__(self, bits):
         self.bits = bits
         self.word = 0
-        self.maxValue = 1 << self.bits
-        self.mask = self.maxValue - 1
+        self.max_value = 1 << self.bits
+        self.mask = self.max_value - 1
 
     def increment(self):
-        self.word = (self.word + 1) % self.maxValue
+        self.word = (self.word + 1) % self.max_value
 
     def clear(self):
         self.word = 0
@@ -343,8 +369,8 @@ class Register(object):
 
     def add(self, word):
         value = self.word + word
-        carry = value & self.maxValue
-        self.word = value % self.maxValue
+        carry = value & self.max_value
+        self.word = value % self.max_value
 
         return 1 if carry else 0
 
@@ -355,13 +381,13 @@ class Register(object):
         lsb = self.word & 1
         self.word >>= 1
         if msb:
-            maskMSB = self.maxValue >> 1
-            self.word |= maskMSB
+            msb_mask = self.max_value >> 1
+            self.word |= msb_mask
 
         return lsb
 
     def shift_left(self, lsb):
-        msb_mask = self.maxValue >> 1
+        msb_mask = self.max_value >> 1
         msb = 1 if self.word & msb_mask else 0
         self.word = (self.word << 1) & self.mask
         if lsb:
@@ -375,22 +401,19 @@ class Register(object):
 
 class Memory(object):
     def __init__(self, size):
-        self.memory = {}
         self.size = size
         self.data = [0] * size
 
     def write(self, address, word):
         self.data[address] = word
-    
+
     def read(self, address):
-        return self.memory.get(address, None)
+        return self.data[address]
+
+    def __str__(self):
+        return 'Memory(size=%dK)' % (self.size / 1024)
     
-    def readBulkMemory(self):
-        return str(self.memory)
-    
-    def writeBulk(self, bulkData):
-        for address, data in bulkData.items():
-            self.write(address, data)
+
 
 ########################################
 #############api########################
