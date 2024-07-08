@@ -112,6 +112,7 @@ class TestMemory(TestCase):
     def test_string_representation(self):
         self.assertEqual('Memory(size=4K)', str(self.memory))
         
+# Add -23 and 83
 program = """
                  ORG 100
                  LDA AAA
@@ -123,20 +124,7 @@ program = """
             CCC, HEX 0
                  END
         """
- program = """
-                 ORG 100
-                 LDA BBB
-                 CMA
-                 INC
-                 ADD AAA
-                 STA CCC
-                 HLT
-            AAA, DEC 83
-            BBB, DEC -23
-            CCC, HEX 0
-                 END
-        """
-
+# Subtract 83 and -23
 program = """
                  ORG 100
                  LDA BBB
@@ -151,6 +139,8 @@ program = """
                  END
         """
 
+# Add 16 numbers
+# ram should read 0x880
 program = """
                  ORG 100
                  CLA
@@ -184,6 +174,7 @@ program = """
                  END
         """
 
+# AC should result 31
  program = """
                   ORG 10
                   BSA FUNC
