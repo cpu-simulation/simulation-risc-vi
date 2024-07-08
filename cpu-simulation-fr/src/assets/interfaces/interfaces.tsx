@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-export type IMemCells = [string[], Dispatch<SetStateAction<string[]>>]
+type tupple = [number,number]
+export type IMemCells = [tupple[], Dispatch<SetStateAction<tupple[]>>]
 
 export type IUserInp = [string, Dispatch<SetStateAction<string>>];

@@ -50,7 +50,6 @@ def execute():
       assembler = Assembler(instructions)
       program_start = assembler.load(computer.ram)
       computer.run(program_start)
-      print(computer.ram.bulk_read())
     return computer.read_register()
 
 @api.route("/core/compile",methods=["GET", "POST"])
@@ -60,7 +59,9 @@ def compile():
         instructions = json.get("instructions")
         assembler = Assembler(instructions)
         program_start = assembler.load(computer.ram)
-        return ('', 204)
+        computer.run(program_start)
+        memory = computer.ram.bulk_read()
+        return memory
 
 if __name__ == "__main__":
   api.run(host="localhost", port="8000", debug=True)

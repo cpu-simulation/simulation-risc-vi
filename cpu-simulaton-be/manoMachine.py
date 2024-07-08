@@ -409,9 +409,9 @@ class Memory(object):
 
     def __str__(self):
         return 'Memory(size=%dK)' % (self.size / 1024)
-    
+        
     def bulk_read(self):
-        non_zero_cells = [(addr, value) for addr, value in enumerate(self.data) if value != 0]
+        non_zero_cells = [[addr, self.data[addr]] for addr in range(self.size) if self.data[addr] != 0]
         return non_zero_cells
     
 

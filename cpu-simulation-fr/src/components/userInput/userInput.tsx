@@ -11,22 +11,22 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {  IUserInp } from "../../assets/interfaces/interfaces";
 import api from "../../api/api";
 
-const UserInput = (props: any) => {
+const UserInput = (props:any) => {
   const [input, setInput]: IUserInp = useState("");
-  const compile = () => {
+  const compile = async() => {
 
-    api.post("/core/compile", {
-      instructions : input,
-    })
-
+    let response = await api.post("/core/compile", {
+      instructions: input,
+    });
+    props.setMemory(response.data);
   };
 
   const execute = async() => {
     let response = await api.post("/core/execute", {
       instructions: input,
     });
-
     props.setRegisters(response.data)
+    
   };
   return (
     <div className="col-span-5 row-span-4">
