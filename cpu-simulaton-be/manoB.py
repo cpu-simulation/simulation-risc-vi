@@ -1,5 +1,6 @@
 from math import log
 from flask import Flask, request
+from flask_cors import CORS
 
 class Computer(object):
 
@@ -517,15 +518,27 @@ class Memory(object):
 #############api########################
 ########################################
 
+computer = ""
+
 api = Flask(__name__)
+
+CORS(api)
 
 @api.route("/memory/write", methods=["POST"])
 def writeMemory():
-    pass
+    if request.method == 'POST':
+        json = request.json
+        address = json.get("address")
+        value = json.get("value")
+        print(address, value)
+        return ('', 204)
 
 @api.route("/memory/bulk_write", methods=["POST"])
 def bulkWrite():
-    pass
+    if request.method == "POST":
+        json = request.json
+        data = json.get("data")
+        return ('', 204)
     
 @api.route("/memory/read/<address>")
 def read(address):
@@ -537,19 +550,26 @@ def bulkRead(bulk_address):
 
 @api.route("/register/write", methods=["POST"])
 def writeRegister():
-    pass 
+    return ('', 204) 
 
 @api.route("/register/read")
 def readRegister():
-    pass
+    print(computer.read_register())
+    return ('', 204)
 
 @api.route("/core/execute",methods=["POST"])
 def execute():
-    pass
+    return ('', 204)
 
-@api.route("/core/compile",methods=["POST"])
+@api.route("/core/compile",methods=["GET", "POST"])
 def compile():
-    pass
+    if request.method == "POST":
+        json = request.json
+        instructions = json.get("instructions")
+        print(instructions)
+        computer = Computer(instructions)
+        print(json)
+        return ('', 204)
 
 if __name__ == "__main__":
   api.run(host="localhost", port="8000", debug=True)
