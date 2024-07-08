@@ -412,6 +412,8 @@ class Memory(object):
 
     def __str__(self):
         return 'Memory(size=%dK)' % (self.size / 1024)
+    def bulk_read(self):
+        return self.data
     
 
 
